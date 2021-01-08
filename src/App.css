@@ -3,6 +3,10 @@ body{
   font-family: 'Kufam', cursive;
   padding: 20px 80px;
 }
+a{
+  text-decoration: none;
+  color:black
+}
 .App {
   text-align: center;
 }
