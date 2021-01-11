@@ -10,8 +10,13 @@
   border-bottom: 1px solid #363a4547;
   
     .logo-container {
-      
-      width: 70px;
+      display: flex;
+      flex-direction: row;
+      width: auto ;
+      align-items: center;
+      & h2{
+        padding:0 ;
+      }
     }
   
     .options {
@@ -20,9 +25,29 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
-  
+      text-transform: uppercase;
       .option {
         padding: 10px 15px;
+        min-width: 100px;
+        &.optionIsShowHide{
+          position: relative;
+          overflow: hidden;
+        }
+        & .hide.sign-in{
+          top: -100px;
+          transition: top 300ms cubic-bezier(0.25, 0.45, 0.45, 0.95) ;
+          position:absolute
+        }
+        & .hide.sign-out{
+          top: 100px;
+          transition: top 300ms cubic-bezier(0.25, 0.45, 0.45, 0.95) ;
+          position:absolute
+        }
+        & .show{
+          top: 0;
+          transition: top 1s cubic-bezier(0.25, 0.45, 0.45, 0.95) ;
+          position: absolute;
+        }
       }
     }
   }
