@@ -10,7 +10,7 @@ class Header extends React.Component{
         this.state={
             currentUser:this.props.currentUser
         }
-        this.isComponentDidMount = false
+        this.isComponentUpdated = false
     }
     // static getDerivedStateFromProps(nextProps,prevProps){
     //    console.log(nextProps,prevProps);
@@ -19,13 +19,22 @@ class Header extends React.Component{
     //    //}
       
     // }
+    componentDidUpdate() {
+        console.log("componentDidUpdate called!");
+        this.setState({currentUser:this.props.currentUser});
+        //this.isComponentUpdated = true
+      }
     shouldComponentUpdate(nextProps, nextState){
         console.log(nextProps,nextState);
-        return true
+        if(this.state.currentUser && this.props.currentUser){
+            if(this.state.currentUser.id !== this.props.currentUser.id) return true
+        }
+        if(this.state.currentUser == null && nextProps.currentUser !== null) return true;
+        return false
     }
-    // componentDidMount(){
-    //     this.setState({currentUser:this.props.currentUser})
-    // }
+    componentDidMount(){
+        this.setState({currentUser:this.props.currentUser})
+    }
      handleSignOut = async ()=>{
         try{
             await auth.signOut();
