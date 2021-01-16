@@ -10,34 +10,21 @@ class Header extends React.Component{
         this.state={
             currentUser:this.props.currentUser
         }
-        this.isComponentUpdated = false
+        this.loggedIn = this.props.currentUser?true:false;
     }
-    // static getDerivedStateFromProps(nextProps,prevProps){
-    //    console.log(nextProps,prevProps);
-    //    //if(nextProps !== prevProps){
-    //       return {currentUser:nextProps.currentUser}
-    //    //}
-      
-    // }
     componentDidUpdate() {
         console.log("componentDidUpdate called!");
-        this.setState({currentUser:this.props.currentUser});
-        //this.isComponentUpdated = true
+        this.loggedIn = this.props.currentUser?true:false;
       }
-    shouldComponentUpdate(nextProps, nextState){
-        console.log(nextProps,nextState);
-        if(this.state.currentUser && this.props.currentUser){
-            if(this.state.currentUser.id !== this.props.currentUser.id) return true
-        }
-        if(this.state.currentUser == null && nextProps.currentUser !== null) return true;
-        return false
-    }
-    componentDidMount(){
-        this.setState({currentUser:this.props.currentUser})
+    shouldComponentUpdate(nextProps, prevState){
+        (nextProps.currentUser && !this.loggedIn && !this.props.currentUser) && (this.loggedIn=true);
+        return true
     }
      handleSignOut = async ()=>{
         try{
             await auth.signOut();
+            this.loggedIn = false;
+            console.log("after sign out@@@@@@@@@@@@@",this.props.currentUser);
             this.setState({currentUser:null})
         }
         catch(err){
@@ -60,8 +47,8 @@ class Header extends React.Component{
             </Link>
 
                 <div className="option optionIsShowHide">
-                    <div onClick={this.handleSignOut} className={`${this.state.currentUser ? "show" : "hide"} sign-out`}>Sign Out</div>
-                    <Link to="/signin" className={`${this.state.currentUser ? "hide" : "show"} sign-in`}>Sign In</Link>
+                    <div onClick={this.handleSignOut} className={`${this.loggedIn ? "show" : "hide"} sign-out`}>Sign Out</div>
+                    <Link to="/signin" className={`${this.loggedIn ? "hide" : "show"} sign-in`}>Sign In</Link>
                 </div>
             </div>
         </div>
